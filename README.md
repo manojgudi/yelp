@@ -14,7 +14,7 @@ Also, you might want to know how to use this-
 
 Currently supports multi-line un/commmenting in scilab
 For help:<br>
-`./yelp.py -h`
+`./yelp -h`
 
 For commenting, check sample.sci how to use comment_markers; after which run this script<br>
 `./yelp -fc sample.sci`

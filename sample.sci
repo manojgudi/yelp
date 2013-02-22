@@ -10,7 +10,12 @@ commented ##
 line to be commented ##
 
 
+exec sample_header.sci
+exec sample_header2.sci
 
+
+
+// Some random pre-existsing comments
 // functions
 function [sum_vector] = vector_sum(image_mat, mode_str)
 	

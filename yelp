@@ -27,12 +27,22 @@ group.add_argument("-u", "--uncomment_all", help="multi-line UNcomment if previo
 parser.add_argument("-f", help="Force the script to write changes directly to the file", action="store_true")
 parser.add_argument("-d", help="Show diff", action="store_true")
 
+
 args = parser.parse_args()
 
 # File opening and read it into file_data variable
 file_obj = open(args.file, 'r')
 file_data = file_obj.read()
 file_obj.close()
+
+
+def list2fstr(list_data):
+	# Opposite of string.splitlines() function, list to formatted string
+	formatted_string = ""
+	for i in list_data:
+		formatted_string = formatted_string + i + "\n"
+		
+	return formatted_string
 
 def comment_all(str_data):
 	# Check for number of ##, if the number is odd, then user is on way to destroy code
@@ -75,10 +85,8 @@ def comment_all(str_data):
 					print("++ "+OKBLUE+list_data[j]+ENDC)
 					
 		# Convert list_data to a string modified_content
-		modified_content = ""
-		for i in list_data:
-			modified_content = modified_content + i + "\n"
-			
+		modified_content = list2fstr(list_data)
+					
 		# If --force option is set, then write in same file
 		if args.f:
 			# reopen original file
@@ -119,9 +127,7 @@ def uncomment_all(str_data):
 				print("++ "+OKGREEN+list_data[j]+ENDC)
         
         # Convert list_data to a string modified_content
-        modified_content = ""
-        for i in list_data:
-                modified_content = modified_content + i + "\n"
+        modified_content = list2fstr(list_data)
                 
         # If --force option is set, then write in same file
         if args.f:
@@ -134,11 +140,79 @@ def uncomment_all(str_data):
                 write_other_file.write(modified_content)
                 write_other_file.close()
 
+def rm_comments(list_data):
+	list_pass_void_comments = []
+	for i in list_data:
+		if i.startswith("//") or i.find("##") != -1:
+			pass
+		else:
+			list_pass_void_comments.append(i)
 
-# check for  
+	return list_pass_void_comments
+	
+""" Might require someday
+def rm_statement(list_data):
+	list_pass_void_exec = []
+	for i in list_data:
+		if (i.find("exec") == -1) and (i.find("endfunction") == -1) and  (i.find("end") == -1):
+			list_pass_void_exec.append(i)
+
+	return list_pass_void_exec
+"""
+
+def expand_exec(list_data):
+	# Make sure list_data doesnt contain comments
+	current_string=list2fstr(list_data)
+	for i in list_data:
+		if (i.find("exec") != -1):
+			hfile =open(i.partition("exec")[2].strip(" "), 'r')
+			current_string = hfile.read() + current_string
+	
+	return current_string.splitlines()
+			
+			
+
+""" Might Require some day
+def rm_symbols(str_line):
+	dic = [",","]","[","(",")",";","&",":","=","$"]
+	clean_str = ""
+	# str.strip("character")  is not efficient
+	for i in str_line:
+		for j in dic:
+			
+		
+	return clean_str
+"""
+	
+def find_single_variable(str_data):
+	list_data = str_data.splitlines() 
+	
+	# Remove comments and exec statments
+	list_data = rm_comments(list_data)
+	
+	expand_exec(list_data)
+	
+	"""words = []
+	for i in list_data:
+		i = rm_symbols(i)
+		temp_list = i.split()
+		for j in temp_list:
+			words.append(j)
+	
+	print words
+	"""		
+	#content = list2fstr(list_data)		
+	#return content
+	
+
+
+
+# check for -c and -u flags
 if args.comment_all:
 	print "commenting file"
 	comment_all(file_data)
 if args.uncomment_all:
 	print "uncommenting file"
 	uncomment_all(file_data)
+
+find_single_variable(file_data)
