@@ -1,7 +1,7 @@
 #!/usr/bin/python2.7	
 
 # multi-line comment  => done
-# multi-line uncomment
+# multi-line uncomment => done
 # single var  handle exec and loops
 # show diff after execution
 # handle ; and missing end
