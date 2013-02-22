@@ -8,6 +8,16 @@
 
 import argparse
 
+# Colors
+HEADER = '\033[95m'
+OKBLUE = '\033[94m'
+OKGREEN = '\033[92m'
+WARNING = '\033[93m'
+FAIL = '\033[91m'
+ENDC = '\033[0m'
+
+
+
 parser = argparse.ArgumentParser(description="A simple script to save you from mildly terrible scilab scripting")
 parser.add_argument("file", help="requires a valid file name")
 
@@ -42,7 +52,11 @@ def comment_all(str_data):
 				start_marker.append(count)
 			elif i.endswith("##"):
 				end_marker.append(count)
-
+		
+		if len(start_marker) == 0:
+			print(WARNING+"Either there are NO comment_markers or they are misplaced \nPlease consider rediting your file"+ENDC)
+			exit()
+								
 		for i in start_marker:
 			line_iterator = range((i-1),(end_marker[start_marker.index(i)])) # Use of (i-1) so that it includes the line which contains #
 
