@@ -18,13 +18,14 @@ ENDC = '\033[0m'
 
 
 
-parser = argparse.ArgumentParser(description="A simple script to save you from mildly terrible scilab scripting")
+parser = argparse.ArgumentParser(description="A simple script to save you from mildly terrible scilab scripting \n www.github.com/manojgudi/yelp")
 parser.add_argument("file", help="requires a valid file name")
 
 group = parser.add_mutually_exclusive_group()
 group.add_argument("-c","--comment_all", help="multi-line comment given document specified by ##  markers", action="store_true")
 group.add_argument("-u", "--uncomment_all", help="multi-line UNcomment if previously commented using yelp", action = "store_true")
 parser.add_argument("-f", help="Force the script to write changes directly to the file", action="store_true")
+parser.add_argument("-d", help="Show diff", action="store_true")
 
 args = parser.parse_args()
 
@@ -62,8 +63,17 @@ def comment_all(str_data):
 
 			# Add // to those section
 			for j in line_iterator:
+				
+				# Shows what all is deleted
+				"""if args.d:
+					print("--"+FAIL+list_data[j]+ENDC)"""
+					
 				list_data[j] = "//" + list_data[j]			
-		
+				
+				# Shows what all is modified
+				if args.d:
+					print("++ "+OKBLUE+list_data[j]+ENDC)
+					
 		# Convert list_data to a string modified_content
 		modified_content = ""
 		for i in list_data:
@@ -76,9 +86,54 @@ def comment_all(str_data):
 			file_obj.write(modified_content)
 			file_obj.close()
 		else:
-			write_other_file = open(args.file+"_modified", 'w')
+			write_other_file = open("mod_"+args.file, 'w')
 			write_other_file.write(modified_content)
 			write_other_file.close()
+
+def uncomment_all(str_data):
+        list_data = str_data.splitlines()
+        count = 0
+        start_marker = []
+        end_marker = []
+
+        # iterating for each sentence
+        for i in list_data:
+                count+=1
+                if i.startswith("//##"):
+                        start_marker.append(count)
+                elif i.endswith("##"):
+                        end_marker.append(count)
+        
+        if len(start_marker) == 0:
+                print(WARNING+"Either there are NO comment_markers or they are misplaced \nPlease consider rediting your file"+ENDC)
+                exit()
+                                                        
+        for i in start_marker:
+                line_iterator = range((i-1),(end_marker[start_marker.index(i)])) # Use of (i-1) so that it includes the line which contains #
+
+                # Add // to those section
+                for j in line_iterator:
+                        list_data[j] =  list_data[j].strip("//")
+			# Shows what all is modified
+			if args.d:
+				print("++ "+OKGREEN+list_data[j]+ENDC)
+        
+        # Convert list_data to a string modified_content
+        modified_content = ""
+        for i in list_data:
+                modified_content = modified_content + i + "\n"
+                
+        # If --force option is set, then write in same file
+        if args.f:
+                # reopen original file
+                file_obj = open(args.file, 'w')
+                file_obj.write(modified_content)
+                file_obj.close()
+        else:
+                write_other_file = open("mod_"+args.file, 'w')
+                write_other_file.write(modified_content)
+                write_other_file.close()
+
 
 # check for  
 if args.comment_all:
@@ -86,4 +141,4 @@ if args.comment_all:
 	comment_all(file_data)
 if args.uncomment_all:
 	print "uncommenting file"
-
+	uncomment_all(file_data)
