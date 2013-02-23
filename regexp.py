@@ -7,16 +7,16 @@ file_obj.close()
 
 def useless(file_data):
     ret = []
-    functionline = 'function +[^{]*[\n\t ]*{' # detects function declaration line
+    functionline = 'function [^(]*' # detects function declaration line
     results = re.findall(functionline, file_data)
     for result in results:
-        name = re.findall("= *[^(]*", result)[0][1:].strip() 
-        if file_data.count(name)==1:
+        name = re.findall("=[^(]*", result)[0][1:].strip()
+        count = file_data.count(name+'(')
+        if count==1:
             ret.append(name)
-            print name
     return ret
 
-useless(file_data)
+print useless(file_data)
 
 
 
