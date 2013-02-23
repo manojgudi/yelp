@@ -23,7 +23,7 @@ def var(file_data):
     var_declaration = '[a-zA-Z_][a-zA-Z0-9_]* *='
     results = re.findall(var_declaration, file_data)
     for result in results:
-        name =  result.split(" ")[0]
+        name = result.replace("=","").strip()
         count = file_data.count(name)
         if count==1:
            temp_names.append(name)
