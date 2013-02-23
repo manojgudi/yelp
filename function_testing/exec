@@ -1,0 +1,58 @@
+#!/usr/bin/python2.7
+
+args = "sample.sci"
+
+
+args_list = []
+file_obj = open(args,'r')
+file_data = file_obj.read()
+file_obj.close()
+import re
+
+def exec_function(file_name):
+	
+	file_obj = open(file_name,'r')
+	file_data = file_obj.read()
+	file_obj.close()
+	def find_exec(string):
+		list_exec=re.findall("exec [a-zA-Z0-9_]*.sc[a-z]",string)
+		file_list = []
+		# Remove "exec " to get headers only
+		for i in list_exec:
+			i = i.replace("exec","").strip(" ")
+			file_list.append(i)
+
+		return file_list
+
+	file_list = find_exec(file_data)
+	return file_list
+
+
+huge_string=""
+
+
+## refer documentation to see its algorithm
+def expand_exec(file_name,huge_string):
+	if args_list.count(file_name) == 0:
+		args_list.append(file_name)
+		new_list = exec_function(file_name)
+		
+		# print new_list
+		if new_list == []:
+			pass
+		else:
+			for nested_file in new_list:
+
+				print("nesting to " + nested_file)
+
+				file_obj = open(nested_file,'r')
+				file_data = file_obj.read()
+				file_obj.close()
+				huge_string=huge_string + file_data
+				huge_string=expand_exec(nested_file,huge_string)
+	
+	return huge_string
+	
+
+huge_string = expand_exec(args,huge_string)
+print huge_string
