@@ -1,13 +1,13 @@
 
 // Functions for qualitative feature extraction
 
-## Sample 
-line
-to be
-commented ##
+//## Sample 
+//line
+//to be
+//commented ##
 
-## another sample
-line to be commented ##
+//## another sample
+//line to be commented ##
 
 exec sample_header2.sci
 
