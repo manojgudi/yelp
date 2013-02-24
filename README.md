@@ -15,10 +15,38 @@ Currently supports multi-line un/commmenting in scilab
 For help:<br>
 `./yelp -h`
 
-For commenting, check sample.sci how to use comment_markers; after which run th$
-`./yelp -fc sample.sci`
+#### Multi-line un/commenting
+Multi-line commenting in Scilab has been a huge pain since they believe commenting is *bad*. <br>
+Anyway, yelp solves this problem. For multi-line commenting, place markers "##" before start of comment line and end of it.<br>
+Here's one example of multi-line comment in commented_file.sci ->
 
-#### Single Occurence of function or variable:<br>
+*## This is a multi-line comment<br>*
+*I can write here,<br>*
+*and here, without having to worry about adding anything<br>*
+*just remember to add markers after end; like this ##<br>*
+<br>
+Now use yelp to add comment-<br>
+`./yelp -dcf commented_file.sci`
+
+It will output this: **check options section for more**<br>
+*//## This is a multi-line comment<br>*
+*//I can write here,<br>*
+*//and here, without having to worry about adding anything<br>*
+*//just remember to add markers after end; like this ##<br>*
+
+You can uncomment file commented by yelp to revert changes.<br>
+`./yelp -duf commented_file` <br>
+
+For experimenting, check sample.sci how to use comment_markers;
+
+#### Options
+* ***-f*** forces the script to modify the given file in argument.
+* ***-c*** is for multi-line commenting
+* ***-u*** is for multi-line uncommenting scilab-script which was previously commented by yelp.
+* ***-d*** shows you diff of what is being added/modified
+
+<br>
+#### Single Occurence of function or variable:
 I have strong belief that a single occurence of any variable or function in a document is **evil** 
 Mostly, a single occurence of variable or function implies =>
 
@@ -27,15 +55,10 @@ Mostly, a single occurence of variable or function implies =>
 
 This usually means hours of clueless debugging(and worse scilab is interpreted, so debugging one by one error)... **yelp** can save you from that.
 Also one may cleverly think, what if my function is declared in some other header file, and I am using it just once in my *xyz.sci* (say). Don't worry, Manoj, yelp takes care of that too.
-Usage:
+Usage (NO options should be passed):
 
 `./yelp xyz.sci`
 
+For experimentation purposes, use sample.sci
 
-#### Options
-* ***-f*** forces the script to modify the sample.sci (that is given file in *a$
-* ***-c*** is for multi-line commenting
-* ***-u*** is for multi-line uncommenting scilab-script which was previously co$
-* ***-d*** shows you diff of what is being added/modified
-
-PS: Manoj, finally thank @kushalbhabra for his immense contribution/support for choosing right regex statements
+PS: Manoj, finally thank @kushalbhabra for his immense contribution/support for choosing right regex statements;<br>and in case Manoj of future, if you think you are smarter than me, then send me suggestions/improvements here.

@@ -182,11 +182,14 @@ def expand_exec(file_name,huge_string):
 
 				print("nesting to " + nested_file)
 
-				file_obj = open(nested_file,'r')
-				file_data = file_obj.read()
-				file_obj.close()
-				huge_string = expand_exec(nested_file,huge_string)
-				huge_string = huge_string + file_data
+				try:
+					file_obj = open(nested_file,'r')
+					file_data = file_obj.read()
+					file_obj.close()
+					huge_string = expand_exec(nested_file,huge_string)
+					huge_string = huge_string + file_data
+				except: 
+					print "Couldn't find any file named: " + nested_file
 	
 	return huge_string
 
