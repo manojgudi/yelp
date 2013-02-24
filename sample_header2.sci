@@ -1,5 +1,5 @@
 exec sample.sci
 
-function [var] = myfunc[f,t]
+function [var] = myfunc(f,t)
 	var = t*t;
 endfunction

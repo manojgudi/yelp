@@ -48,8 +48,8 @@ def expand_exec(file_name,huge_string):
 				file_obj = open(nested_file,'r')
 				file_data = file_obj.read()
 				file_obj.close()
-				huge_string=huge_string + file_data
 				huge_string=expand_exec(nested_file,huge_string)
+				huge_string=huge_string + file_data
 	
 	return huge_string
 	

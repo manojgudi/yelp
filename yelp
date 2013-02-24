@@ -158,7 +158,8 @@ def exec_function(file_name):
 		# Remove "exec " to get headers only
 		for i in list_exec:
 			i = i.replace("exec","").strip(" ")
-			file_list.append(i)
+			if i != args.file:
+				file_list.append(i)
 
 		return file_list
 
@@ -172,20 +173,20 @@ def expand_exec(file_name,huge_string):
 	if args_list.count(file_name) == 0:
 		args_list.append(file_name)
 		new_list = exec_function(file_name)
-		
+
 		# print new_list
 		if new_list == []:
 			pass
 		else:
 			for nested_file in new_list:
 
-				#print("nesting to " + nested_file)
+				print("nesting to " + nested_file)
 
 				file_obj = open(nested_file,'r')
 				file_data = file_obj.read()
 				file_obj.close()
-				huge_string=huge_string + file_data
-				huge_string=expand_exec(nested_file,huge_string)
+				huge_string = expand_exec(nested_file,huge_string)
+				huge_string = huge_string + file_data
 	
 	return huge_string
 
@@ -194,14 +195,14 @@ def rm_comments(file_string):
 	list_data = file_string.splitlines()
 	list_pass_void_comments = []
 	for i in list_data:
-		if i.startswith("//"):
+		if i.count("exec") != 0:
 			pass
-		elif i.find("##") != -1:
-			print("Comment Markers Found, please pass the file through multi-line commenter")
-			exit() 
 		elif i.count("//") != 0:
 			i = i.split("//")[0]
 			list_pass_void_comments.append(i)
+		elif i.count("##") != 0:
+			print("Comment Markers Found, please pass the file through multi-line commenter")
+			exit() 
 		else:
 			list_pass_void_comments.append(i)
 	
@@ -234,7 +235,7 @@ def var(file_data):
     for line in file_data.split("\n"):
         for name in temp_names:
             if name in line:
-                ret.append({'var_name':name,'line_no':line_no})
+                ret.append([name,line_no])
         line_no+=1
     return ret
 
@@ -246,18 +247,25 @@ def find_single_variable(huge_string):
 	# Remove comments from them
 	huge_string = rm_comments(huge_string)
 	
-	print huge_string
-	#single_occ_func = useless(huge_string)
-	
-	#single_occ_var = var(huge_string)
-	
-	file_obj=open("huge_string.txt",'w')
-	file_obj.write(huge_string)
-	file_obj.close()
+	# Find single_function and single_variable occurences
+	single_occ_func = useless(huge_string)	
+	single_occ_var = var(huge_string)
 	
 	
-	#print single_occ_func
-	#print single_occ_var
+	# Print Function Occurences
+	print WARNING+"\nSingle Function Occurences"+ENDC
+	for i in single_occ_func:
+		print ">> "+FAIL+i+ENDC
+	
+	print WARNING+"\nSingle Variable Occurences"+ENDC
+	
+	# Print Variable Occurences
+	for i in single_occ_var:
+		print "Variable: "+FAIL+i[0]+ENDC
+		print "Line no. "+HEADER+str(i[1])+ENDC
+		
+		
+	
 
 # check for -c and -u flags
 if args.comment_all:
