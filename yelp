@@ -1,11 +1,5 @@
 #!/usr/bin/python2.7	
 
-# multi-line comment  => done
-# multi-line uncomment => done
-# single var  handle exec and loops
-# show diff after execution
-# handle ; and missing end
-
 import argparse
 import re
 
@@ -146,7 +140,7 @@ def uncomment_all(str_data):
                 write_other_file.write(modified_content)
                 write_other_file.close()
 
-
+# exec_function is responsible for the checking of expansion of header file, if the header file_name is found in file_list, then skip adding it, else add, at the end return file_list which has all file_name.sc* which has to be expanded
 def exec_function(file_name):
 	
 	file_obj = open(file_name,'r')
@@ -169,6 +163,9 @@ def exec_function(file_name):
 
 
 ## refer documentation to see its algorithm
+
+# Algorithm traverse and expand to each and every file which is returned by file_list; add it to content
+
 def expand_exec(file_name,huge_string):
 	if args_list.count(file_name) == 0:
 		args_list.append(file_name)
@@ -193,7 +190,7 @@ def expand_exec(file_name,huge_string):
 	
 	return huge_string
 
-
+# Remove comments and exec statement; also if ## comment markers found, then abort.
 def rm_comments(file_string):
 	list_data = file_string.splitlines()
 	list_pass_void_comments = []
@@ -224,6 +221,7 @@ def useless(file_data):
             ret.append(name)
     return ret
 
+# Find variable which has single occurence found by the regex in var_declaration
 def var(file_data):
     ret=[]
     temp_names=[]
@@ -242,7 +240,8 @@ def var(file_data):
         line_no+=1
     return ret
 
-	
+
+# Finds single_occurence_variable and function
 def find_single_variable(huge_string):
 	
 	huge_string = expand_exec(args.file, huge_string)
