@@ -29,11 +29,11 @@ Now use yelp to add comment-<br>
 `./yelp -dcf commented_file.sci`
 
 It will output this: **check options section for more**<br>
-COMMENTING.PNG
+![Commenting](https://raw.github.com/manojgudi/yelp/master/screenshots/commenting.png)
 
 You can uncomment file commented by yelp to revert changes.<br>
 `./yelp -duf commented_file` <br>
-UNCOMMENTING.PNG
+![UNCOMMENTING](https://raw.github.com/manojgudi/yelp/master/screenshots/uncommenting.png)
 
 For experimenting, check sample.sci how to use comment_markers;
 
