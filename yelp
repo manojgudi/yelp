@@ -74,10 +74,6 @@ def comment_all(str_data):
 			# Add // to those section
 			for j in line_iterator:
 				
-				# Shows what all is deleted
-				"""if args.d:
-					print("--"+FAIL+list_data[j]+ENDC)"""
-					
 				list_data[j] = "//" + list_data[j]			
 				
 				# Shows what all is modified
@@ -166,7 +162,7 @@ def exec_function(file_name):
 
 # Algorithm traverse and expand to each and every file which is returned by file_list; add it to content
 
-def expand_exec(file_name,huge_string):
+def nested_list(file_name,args_list):
 	if args_list.count(file_name) == 0:
 		args_list.append(file_name)
 		new_list = exec_function(file_name)
@@ -181,14 +177,11 @@ def expand_exec(file_name,huge_string):
 
 				try:
 					file_obj = open(nested_file,'r')
-					file_data = file_obj.read()
 					file_obj.close()
-					huge_string = expand_exec(nested_file,huge_string)
-					huge_string = huge_string + file_data
+					args_list = nested_list(nested_file,args_list)
 				except: 
 					print "Couldn't find any file named: " + nested_file
-	
-	return huge_string
+	return args_list
 
 # Remove comments and exec statement; also if ## comment markers found, then abort.
 def rm_comments(file_string):
@@ -220,6 +213,19 @@ def useless(file_data):
         if count==1:
             ret.append(name)
     return ret
+    
+# Expand all headers found in args_list of nested_list and expand it
+def expand_exec(args_list):
+	huge_string = ""
+	for header_file in args_list:
+		try:
+			file_obj = open(header_file,'r')
+			huge_string=huge_string + file_obj.read()
+			file_obj.close()
+		except:
+			 # Ideally, it should never reach here since this is already checked in nested_list function
+			print (FAIL+"Failed to expand: "+header_file+ENDC)
+	return huge_string
 
 # Find variable which has single occurence found by the regex in var_declaration
 def var(file_data):
@@ -242,10 +248,20 @@ def var(file_data):
 
 
 # Finds single_occurence_variable and function
-def find_single_variable(huge_string):
-	
-	huge_string = expand_exec(args.file, huge_string)
+def find_single_variable(huge_string,args_list,file_name):
+	args_list = nested_list(args.file, args_list)
+	huge_string=expand_exec(args_list)
 
+
+	# If some exec files are incorrectly dependent on args.file then remove it
+	try:
+		
+		args_list.remove(file_name)		
+		print(WARNING+"WARNING: This file is header to another of files' header! \nCheck 'exec' of files"+ENDC)
+	except:
+		pass
+
+	print args_list
 	# Remove comments from them
 	huge_string = rm_comments(huge_string)
 	
@@ -284,4 +300,4 @@ if args.uncomment_all:
 if args.f :
 	exit()
 else:
-	find_single_variable(file_data)
+	find_single_variable(file_data,args_list,args.file)
