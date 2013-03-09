@@ -15,6 +15,8 @@ exec sample_header.sci
 exec sample.sci
 
 
+// exec this_wont_be_expanded.sci
+
 // Some random pre-existsing comments
 // functions
 function [sum_vector] = vector_sum(image_mat, mode_str)

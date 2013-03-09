@@ -136,6 +136,17 @@ def uncomment_all(str_data):
                 write_other_file.write(modified_content)
                 write_other_file.close()
 
+
+# Removes commented exec statments like these "// exec something.sci"
+def rm_commented_exec(string):
+	list_string = string.splitlines()
+	string = ""
+	for lines in list_string:
+		if (not(lines.startswith("//"))):
+			string = string +'\n' + lines
+			
+	return string
+
 # exec_function is responsible for the checking of expansion of header file, if the header file_name is found in file_list, then skip adding it, else add, at the end return file_list which has all file_name.sc* which has to be expanded
 def exec_function(file_name):
 	
@@ -143,6 +154,10 @@ def exec_function(file_name):
 	file_data = file_obj.read()
 	file_obj.close()
 	def find_exec(string):
+		
+		# remove commented exec statments; actually it removes comments altogether
+		string = rm_commented_exec(string)
+	
 		list_exec=re.findall("exec [a-zA-Z0-9_]*.sc[a-z]",string)
 		file_list = []
 		# Remove "exec " to get headers only
@@ -150,7 +165,7 @@ def exec_function(file_name):
 			i = i.replace("exec","").strip(" ")
 			if i != args.file:
 				file_list.append(i)
-
+	
 		return file_list
 
 	file_list = find_exec(file_data)
@@ -163,7 +178,8 @@ def exec_function(file_name):
 # Algorithm traverse and expand to each and every file which is returned by file_list; add it to content
 
 def nested_list(file_name,args_list):
-	if args_list.count(file_name) == 0:
+	if (args_list.count(file_name) == 0):
+	
 		args_list.append(file_name)
 		new_list = exec_function(file_name)
 
@@ -172,8 +188,9 @@ def nested_list(file_name,args_list):
 			pass
 		else:
 			for nested_file in new_list:
-
-				print("nesting to " + nested_file)
+			
+				# Check if its nesting all the way till last file
+				#print("nesting to " + nested_file)
 
 				try:
 					file_obj = open(nested_file,'r')
@@ -254,14 +271,14 @@ def find_single_variable(huge_string,args_list,file_name):
 
 
 	# If some exec files are incorrectly dependent on args.file then remove it
-	try:
-		
+	try:		
 		args_list.remove(file_name)		
-		print(WARNING+"WARNING: This file is header to another of files' header! \nCheck 'exec' of files"+ENDC)
 	except:
 		pass
-
+	
+	# Each file in args_list should be once
 	print args_list
+
 	# Remove comments from them
 	huge_string = rm_comments(huge_string)
 	
