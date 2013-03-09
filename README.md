@@ -29,13 +29,11 @@ Now use yelp to add comment-<br>
 `./yelp -dcf commented_file.sci`
 
 It will output this: **check options section for more**<br>
-*//## This is a multi-line comment<br>*
-*//I can write here,<br>*
-*//and here, without having to worry about adding anything<br>*
-*//just remember to add markers after end; like this ##<br>*
+COMMENTING.PNG
 
 You can uncomment file commented by yelp to revert changes.<br>
 `./yelp -duf commented_file` <br>
+UNCOMMENTING.PNG
 
 For experimenting, check sample.sci how to use comment_markers;
 
@@ -57,7 +55,9 @@ This usually means hours of clueless debugging(and worse scilab is interpreted, 
 Also one may cleverly think, what if my function is declared in some other header file, and I am using it just once in my *xyz.sci* (say). Don't worry, Manoj, yelp takes care of that too.
 Usage (NO options should be passed):
 
-`./yelp xyz.sci`
+`./yelp xyz.sci` <br>
+
+DEBUGGING.PNG
 
 For experimentation purposes, use sample.sci
 
