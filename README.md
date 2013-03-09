@@ -57,7 +57,7 @@ Usage (NO options should be passed):
 
 `./yelp xyz.sci` <br>
 
-DEBUGGING.PNG
+![DEBUGGING](https://raw.github.com/manojgudi/yelp/master/screenshots/debugging.png) 
 
 For experimentation purposes, use sample.sci
 
