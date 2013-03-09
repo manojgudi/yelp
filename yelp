@@ -256,16 +256,20 @@ def find_single_variable(huge_string):
 	
 	# Print Function Occurences
 	print WARNING+"\nSingle Function Occurences"+ENDC
-	for i in single_occ_func:
-		print ">> "+FAIL+i+ENDC
-	
-	print WARNING+"\nSingle Variable Occurences"+ENDC
-	
+	if single_occ_func !=[]:
+		for i in single_occ_func:
+			print ">> "+FAIL+i+ENDC
+	else:
+		print (OKGREEN+"No single-occurence of functions found"+ENDC)
+
 	# Print Variable Occurences
-	for i in single_occ_var:
-		print "Variable: "+FAIL+i[0]+ENDC
-		print "Line no. "+HEADER+str(i[1])+ENDC
-		
+	print WARNING+"\nSingle Variable Occurences"+ENDC
+	if single_occ_var != []:
+		for i in single_occ_var:
+			print "Variable: "+FAIL+i[0]+ENDC
+			print "Line no. "+HEADER+str(i[1])+ENDC
+	else:
+		print (OKGREEN+"No single-occurence of variables found"+ENDC)
 		
 	
 
