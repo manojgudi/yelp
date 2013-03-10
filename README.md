@@ -8,7 +8,7 @@ You are in a wrong space-time-repo; there is nothing useful here.
 <br>
 ### If you are Manoj who has done time travel to future:
 
-Hi Manoj, this script is a small, trivial python script to clean up scilab scri$
+Hi Manoj, this script is a small, trivial python script to clean up scilab script.<br>
 Also, you might want to know how to use this-
 
 Currently supports multi-line un/commmenting in scilab
@@ -17,14 +17,16 @@ For help:<br>
 
 #### Multi-line un/commenting
 Multi-line commenting in Scilab has been a huge pain since they believe commenting is *bad*. <br>
-Anyway, yelp solves this problem. For multi-line commenting, place markers "##" before start of comment line and end of it.<br>
+Anyway, *yelp* solves this problem. For multi-line commenting, place markers "##" before start of comment line and end of it.<br>
 Here's one example of multi-line comment in commented_file.sci ->
 
-*## This is a multi-line comment<br>*
-*I can write here,<br>*
-*and here, without having to worry about adding anything<br>*
-*just remember to add markers after end; like this ##<br>*
-<br>
+<i>## Sample<br>
+line<br>
+to be<br>
+commented ## <br>
+ ## another sample<br>
+line to be commented ## <br>
+<br></i>
 Now use yelp to add comment-<br>
 `./yelp -dcf commented_file.sci`
 
