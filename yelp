@@ -158,11 +158,11 @@ def exec_function(file_name):
 		# remove commented exec statments; actually it removes comments altogether
 		string = rm_commented_exec(string)
 	
-		list_exec=re.findall("exec [a-zA-Z0-9_]*.sc[a-z]",string)
+		list_exec=re.findall("exec *[a-zA-Z0-9_]*.sc[a-z]",string)
 		file_list = []
 		# Remove "exec " to get headers only
 		for i in list_exec:
-			i = i.replace("exec","").strip(" ")
+			i = re.findall("[a-zA-Z0-9_]*.sc[a-z]",i)[0]
 			if i != args.file:
 				file_list.append(i)
 	
