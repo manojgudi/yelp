@@ -230,6 +230,24 @@ def useless(file_data):
         if count==1:
             ret.append(name)
     return ret
+
+# Takes string and returns list of all output arguments which are not assigned a return value
+
+def returnvalues(file_data): # file_data is without comments
+
+        args_with_no_return = []
+
+        func_declaration_line = re.findall("function [^=]*",file_data)
+        for func_declaration_statement in func_declaration_line:
+                outputargs = func_declaration_statement.replace("function",'').strip('[ ]')
+                outputarg = [word.strip() for word in outputargs.split(',') if word.strip()]
+
+        for element in outputarg:
+                if file_data.count(element) < 2:
+                        args_with_no_return.append(element)
+
+        return args_with_no_return
+
     
 # Expand all headers found in args_list of nested_list and expand it
 def expand_exec(args_list):
@@ -286,8 +304,11 @@ def find_single_variable(huge_string,args_list,file_name):
 	# Find single_function and single_variable occurences
 	single_occ_func = useless(huge_string)	
 	single_occ_var = var(huge_string)
+	output_args_with_no_return = returnvalues(huge_string)	
 	
-	
+	print "SEE"
+	print output_args_with_no_return
+		
 	# Print Function Occurences
 	print WARNING+"\nSingle Function Occurences"+ENDC
 	if single_occ_func !=[]:
@@ -305,7 +326,7 @@ def find_single_variable(huge_string,args_list,file_name):
 	else:
 		print (OKGREEN+"No single-occurence of variables found"+ENDC)
 		
-	
+
 
 # check for -c and -u flags
 if args.comment_all:
@@ -319,3 +340,8 @@ if args.f :
 	exit()
 else:
 	find_single_variable(file_data,args_list,args.file)
+
+# To do
+# properly write returnvalues function so as for it to search it in range function_declaration to endfunction
+# proper line numbers
+# hooking yelp in scilab-cli
