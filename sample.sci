@@ -14,11 +14,18 @@ exec abc.sce
 exec sample_header.sci
 exec sample.sci
 
+// function [NOO] = vector(shit)
 
 // exec this_wont_be_expanded.sci
 
 // Some random pre-existsing comments
 // functions
+
+function  [output1] = sample_function(inputargs)
+endfunction
+
+ function [output2] = sample_function2(inputargs)
+ 
 function [sum_vector] = vector_sum(image_mat, mode_str)
 	
 	image_mat_size = size(image_mat);
