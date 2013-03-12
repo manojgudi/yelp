@@ -236,15 +236,20 @@ def useless(file_data):
 def returnvalues(file_data): # file_data is without comments
 
         args_with_no_return = []
-
+	outputarg_list = []
+	
         func_declaration_line = re.findall("function [^=]*",file_data)
         for func_declaration_statement in func_declaration_line:
                 outputargs = func_declaration_statement.replace("function",'').strip('[ ]')
                 outputarg = [word.strip() for word in outputargs.split(',') if word.strip()]
+                outputarg_list.append(outputarg)
 
-        for element in outputarg:
-                if file_data.count(element) < 2:
-                        args_with_no_return.append(element)
+        print outputarg_list
+             
+        for element_list in outputarg_list:
+        	for element in element_list:
+        		if file_data.count(element) < 2:
+                        	args_with_no_return.append(element)
 
         return args_with_no_return
 
@@ -305,9 +310,16 @@ def find_single_variable(huge_string,args_list,file_name):
 	single_occ_func = useless(huge_string)	
 	single_occ_var = var(huge_string)
 	output_args_with_no_return = returnvalues(huge_string)	
-	
-	print "SEE"
-	print output_args_with_no_return
+
+	# Print variables with no return value defined:
+	print WARNING+"\n Args with No return value defined in function"+ENDC
+	if output_args_with_no_return !=[]:
+		for i in output_args_with_no_return:
+			print ">> "+FAIL+i+ENDC
+	else:
+		print (OKGREEN+"No single-occurence of functions found"+ENDC)
+
+
 		
 	# Print Function Occurences
 	print WARNING+"\nSingle Function Occurences"+ENDC
@@ -343,5 +355,5 @@ else:
 
 # To do
 # properly write returnvalues function so as for it to search it in range function_declaration to endfunction
-# proper line numbers
+# proper line numbers and file names (hint: make a newfunction which accepts single_Var_instance and querys in each of file_list)
 # hooking yelp in scilab-cli
