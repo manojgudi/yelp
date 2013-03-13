@@ -58,8 +58,32 @@ Also one may cleverly think, what if my function is declared in some other heade
 Usage (NO options should be passed):
 
 `./yelp xyz.sci` <br>
-
 ![DEBUGGING](https://raw.github.com/manojgudi/yelp/master/screenshots/debugging.png) 
+
+#### Function Ouput arguments with NO return values
+In scilab, we write function like this ->
+
+`function [my_output_args] = myfunction(input_args)`<br>
+`// statements`<br>
+`endfunction`
+
+now somewhere in statement IDEALLY I've to return output_args, but scilab does NOT check if all output_args have got a return value
+
+*for example*
+
+`function [arg1,arg2] = myfunc(data1)`
+`      arg1 = 1;`
+`endfunction`<br>
+
+This code shouldnt work since **only** arg1 is being returned... <br>
+but Scilab misses this unless arg2 is specifically called for so if i call myfunction
+
+`some_variable = myfunc(25)    // THIS Executes`
+
+`[var1, var2] = myfunc(25)    /// THIS gives error: no variable called arg2`
+
+Some may call this *feature*; I call it bad programming practice...
+
 
 For experimentation purposes, use sample.sci
 
