@@ -67,12 +67,12 @@ In scilab, we write function like this ->
 `// statements`<br>
 `endfunction`
 
-now somewhere in statement IDEALLY I've to return output_args, but scilab does NOT check if all output_args have got a return value
+now somewhere in *statements* ideally, I've to return output_args, but scilab does NOT check if all output_args have got a return value
 
 *for example*
 
-`function [arg1,arg2] = myfunc(data1)`
-`      arg1 = 1;`
+`function [arg1,arg2] = myfunc(data1)`<br>
+`      arg1 = 1;`<br>
 `endfunction`<br>
 
 This code shouldnt work since **only** arg1 is being returned... <br>
