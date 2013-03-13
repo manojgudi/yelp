@@ -355,3 +355,4 @@ else:
 # properly write returnvalues function so as for it to search it in range function_declaration to endfunction
 # proper line numbers and file names (hint: make a newfunction which accepts single_Var_instance and querys in each of file_list)
 # hooking yelp in scilab-cli
+# parsing 'exec path + something.sci'
