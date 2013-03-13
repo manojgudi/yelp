@@ -244,8 +244,6 @@ def returnvalues(file_data): # file_data is without comments
                 outputarg = [word.strip() for word in outputargs.split(',') if word.strip()]
                 outputarg_list.append(outputarg)
 
-        print outputarg_list
-             
         for element_list in outputarg_list:
         	for element in element_list:
         		if file_data.count(element) < 2:
