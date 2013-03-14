@@ -58,7 +58,6 @@ Also one may cleverly think, what if my function is declared in some other heade
 Usage (NO options should be passed):
 
 `./yelp xyz.sci` <br>
-![DEBUGGING](https://raw.github.com/manojgudi/yelp/master/screenshots/debugging.png) 
 
 #### Function Ouput arguments with NO return values
 In scilab, we write function like this ->
@@ -72,19 +71,21 @@ now somewhere in *statements* ideally, I've to return output_args, but scilab do
 *for example*
 
 `function [arg1,arg2] = myfunc(data1)`<br>
-`      arg1 = 1;`<br>
+`      arg1 = 1;`<br>
 `endfunction`<br>
 
 This code shouldnt work since **only** arg1 is being returned... <br>
 but Scilab misses this unless arg2 is specifically called for so if i call myfunction
 
-`some_variable = myfunc(25)    // THIS Executes`
+`some_variable = myfunc(25)    // THIS Executes`
 
-`[var1, var2] = myfunc(25)    /// THIS gives error: no variable called arg2`
+`[var1, var2] = myfunc(25)    // THIS gives error: no variable called arg2`
 
 Some may call this *feature*; I call it bad programming practice...
 
 
+![DEBUGGING](https://raw.github.com/manojgudi/yelp/master/screenshots/debugging.png) 
+
 For experimentation purposes, use sample.sci
 
-PS: Manoj, finally thank @kushalbhabra for his immense contribution/support for choosing right regex statements;<br>and in case Manoj of future, if you think you are smarter than me, then send me suggestions/improvements here.
+PS: Manoj, finally thank **@kushalbhabra** for his immense contribution/support for choosing right regex statements;<br>and in case Manoj of future, if you think you are smarter than me, then send me suggestions/improvements here.
