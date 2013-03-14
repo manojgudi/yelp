@@ -325,7 +325,8 @@ def find_single_variable(huge_string,args_list,file_name):
 		pass
 	
 	# Each file in args_list should be once
-	print (HEADER+"traversing through files:"+ENDC)
+	print OKGREEN + "------------------------------------------------------------------------" + ENDC
+	print (HEADER+"Traversing through headers:"+ENDC)
 	if args_list == []:
 		print "No Headers found"
 	else:
@@ -375,6 +376,7 @@ def find_single_variable(huge_string,args_list,file_name):
 	else:
 		print (OKGREEN+"No single-occurence of variables found"+ENDC)
 		
+	print OKGREEN + "------------------------------------------------------------------------" + ENDC
 	
 # check for -c and -u flags
 if args.comment_all:
