@@ -20,7 +20,7 @@ def return_line_no(keyword_list,file_list):
 					for line in file_text_list:
 						line_no += 1
 						if line.count(keyword) != 0:
-							file_keyword_list.append([line_no, file_name])
+							file_keyword_list.append([line_no, file_name, keyword])
 				else:
 					pass
 			
@@ -33,6 +33,7 @@ def return_line_no(keyword_list,file_list):
 
 #p  = open('sample.sci')
 lis=['sample.sci','sample_header.sci','abc.sce']
+# lis=[] # Check for blank keyword
 keywords = ['image_mat_size','sum_vector','header_var']
 
 print "ECH"

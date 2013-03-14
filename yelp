@@ -251,6 +251,38 @@ def returnvalues(file_data): # file_data is without comments
 
         return args_with_no_return
 
+# Function To Return line number and Filename
+def return_line_no(keyword_list,file_list):
+	file_keyword_list = []
+	for file_name in file_list:
+		import os
+		path = (os.getcwd())
+
+		try:
+		
+			file_obj = open(path+'/'+file_name,'r')
+			file_text = file_obj.read()
+			file_obj.close()
+		except:
+			print("File " + file_name + " not found")
+			return "Error2 !"
+
+		file_text = rm_comments(file_text) # file_text should be commentless
+		# Iterate for keywords
+		for keyword in keyword_list:
+		
+			if file_text.count(keyword) != 0:
+				file_text_list = file_text.splitlines()
+				line_no = 0
+				for line in file_text_list:
+					line_no += 1
+					if line.count(keyword) != 0:
+						file_keyword_list.append([keyword,file_name,line_no])
+			else:
+				pass
+		
+		
+	return file_keyword_list
     
 # Expand all headers found in args_list of nested_list and expand it
 def expand_exec(args_list):
@@ -275,13 +307,8 @@ def var(file_data):
         name = result.replace("=","").strip()
         count = file_data.count(name)
         if count==1:
-           temp_names.append(name)
-    line_no=1
-    for line in file_data.split("\n"):
-        for name in temp_names:
-            if name in line:
-                ret.append([name,line_no])
-        line_no+=1
+           ret.append(name)
+
     return ret
 
 
@@ -299,7 +326,10 @@ def find_single_variable(huge_string,args_list,file_name):
 	
 	# Each file in args_list should be once
 	print (HEADER+"traversing through files:"+ENDC)
-	print args_list
+	if args_list == []:
+		print "No Headers found"
+	else:
+		print args_list
 
 	# Remove comments from them
 	huge_string = rm_comments(huge_string)
@@ -308,36 +338,44 @@ def find_single_variable(huge_string,args_list,file_name):
 	single_occ_func = useless(huge_string)	
 	single_occ_var = var(huge_string)
 	output_args_with_no_return = returnvalues(huge_string)	
+	
+	## Add back file_name to search
+	args_list.append(file_name)
 
-	# Print variables with no return value defined:
+	# Get line number and their file location
+	single_occ_func_position =  return_line_no(single_occ_func,args_list)
+	single_occ_var_position =  return_line_no(single_occ_var,args_list)
+	output_args_with_no_return_position =  return_line_no(output_args_with_no_return, args_list)
+	
+	
+##### PRINT FORMAT :  SINGLE_VAR + FOUND_IN_FILE + LINE NO OF OCCURENCE ######
+
+	# Print output args with no return value defined:
 	print WARNING+"\n Args with No return value defined in function"+ENDC
-	if output_args_with_no_return !=[]:
-		for i in output_args_with_no_return:
-			print ">> "+FAIL+i+ENDC
+	if output_args_with_no_return_position !=[]:
+		for list_op_args in output_args_with_no_return_position:
+			print ">> "+FAIL + list_op_args[0] + ENDC + " found in "+OKBLUE + list_op_args[1] + ENDC + " @ line "+OKBLUE + str(list_op_args[2]) + ENDC # Print line no.
 	else:
 		print (OKGREEN+"No single-occurence of functions found"+ENDC)
-
-
 		
 	# Print Function Occurences
 	print WARNING+"\nSingle Function Occurences"+ENDC
-	if single_occ_func !=[]:
-		for i in single_occ_func:
-			print ">> "+FAIL+i+ENDC
+	if single_occ_func_position !=[]:
+		for list_single_occ_func in single_occ_func_position:
+			print ">> "+FAIL+list_single_occ_func[0]+ENDC + " found in "+OKBLUE + list_single_occ_func[1] + ENDC +"@ line "+OKBLUE + str(list_single_occ_func[2]) + ENDC
+
 	else:
 		print (OKGREEN+"No single-occurence of functions found"+ENDC)
 
 	# Print Variable Occurences
 	print WARNING+"\nSingle Variable Occurences"+ENDC
-	if single_occ_var != []:
-		for i in single_occ_var:
-			print "Variable: "+FAIL+i[0]+ENDC
-			print "Line no. "+HEADER+str(i[1])+ENDC
+	if single_occ_var_position != []:
+		for list_single_occ_var in single_occ_var_position:
+			print "Variable: "+FAIL+list_single_occ_var[0]+ENDC +	" found in "+OKBLUE + list_single_occ_var[1] + ENDC + "@ line "+OKBLUE + str(list_single_occ_var[2]) + ENDC
 	else:
 		print (OKGREEN+"No single-occurence of variables found"+ENDC)
 		
-
-
+	
 # check for -c and -u flags
 if args.comment_all:
 	print "commenting file"
@@ -353,6 +391,5 @@ else:
 
 # To do
 # properly write returnvalues function so as for it to search it in range function_declaration to endfunction
-# proper line numbers and file names (hint: make a newfunction which accepts single_Var_instance and querys in each of file_list)
 # hooking yelp in scilab-cli
 # parsing 'exec path + something.sci'
