@@ -352,7 +352,7 @@ def find_single_variable(huge_string,args_list,file_name):
 ##### PRINT FORMAT :  SINGLE_VAR + FOUND_IN_FILE + LINE NO OF OCCURENCE ######
 
 	# Print output args with no return value defined:
-	print WARNING+"\n Args with No return value defined in function"+ENDC
+	print WARNING+"\n Output args with NO return value defined:"+ENDC
 	if output_args_with_no_return_position !=[]:
 		for list_op_args in output_args_with_no_return_position:
 			print ">> "+FAIL + list_op_args[0] + ENDC + " found in "+OKBLUE + list_op_args[1] + ENDC + " @ line "+OKBLUE + str(list_op_args[2]) + ENDC # Print line no.
@@ -360,7 +360,7 @@ def find_single_variable(huge_string,args_list,file_name):
 		print (OKGREEN+"No single-occurence of functions found"+ENDC)
 		
 	# Print Function Occurences
-	print WARNING+"\nSingle Function Occurences"+ENDC
+	print WARNING+"\nSingle Function Occurences:"+ENDC
 	if single_occ_func_position !=[]:
 		for list_single_occ_func in single_occ_func_position:
 			print ">> "+FAIL+list_single_occ_func[0]+ENDC + " found in "+OKBLUE + list_single_occ_func[1] + ENDC +"@ line "+OKBLUE + str(list_single_occ_func[2]) + ENDC
@@ -369,10 +369,10 @@ def find_single_variable(huge_string,args_list,file_name):
 		print (OKGREEN+"No single-occurence of functions found"+ENDC)
 
 	# Print Variable Occurences
-	print WARNING+"\nSingle Variable Occurences"+ENDC
+	print WARNING+"\nSingle Variable Occurences:"+ENDC
 	if single_occ_var_position != []:
 		for list_single_occ_var in single_occ_var_position:
-			print "Variable: "+FAIL+list_single_occ_var[0]+ENDC +	" found in "+OKBLUE + list_single_occ_var[1] + ENDC + "@ line "+OKBLUE + str(list_single_occ_var[2]) + ENDC
+			print ">> "+FAIL+list_single_occ_var[0]+ENDC +	" found in "+OKBLUE + list_single_occ_var[1] + ENDC + "@ line "+OKBLUE + str(list_single_occ_var[2]) + ENDC
 	else:
 		print (OKGREEN+"No single-occurence of variables found"+ENDC)
 		
