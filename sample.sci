@@ -15,7 +15,7 @@ exec abc.sce
 exec sample_header.sci
 exec sample.sci
 
-// function [NOO] = vector(shit)
+// function [NOO] = vector(something)
 
 // exec this_wont_be_expanded.sci
 

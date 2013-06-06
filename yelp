@@ -394,4 +394,3 @@ else:
 # To do
 # properly write returnvalues function so as for it to search it in range function_declaration to endfunction
 # hooking yelp in scilab-cli
-# parsing 'exec path + something.sci'
