@@ -11,6 +11,7 @@
 
 exec   sample_header2.sci
 exec abc.sce
+  exec   some_folder/yass.sci
 exec sample_header.sci
 exec sample.sci
 

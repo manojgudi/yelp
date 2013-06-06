@@ -11,7 +11,7 @@ WARNING = '\033[93m'
 FAIL = '\033[91m'
 ENDC = '\033[0m'
 
-
+# Command-line arguments
 
 parser = argparse.ArgumentParser(description="A simple script to save you from mildly terrible scilab scripting \n www.github.com/manojgudi/yelp")
 parser.add_argument("file", help="requires a valid file name")
@@ -158,14 +158,14 @@ def exec_function(file_name):
 		# remove commented exec statments; actually it removes comments altogether
 		string = rm_commented_exec(string)
 	
-		list_exec=re.findall("exec *[a-zA-Z0-9_]*.sc[a-z]",string)
+		list_exec = re.findall("(?<=exec)(.*)(?=\\n)", string)
 		file_list = []
 		# Remove "exec " to get headers only
 		for i in list_exec:
-			i = re.findall("[a-zA-Z0-9_]*.sc[a-z]",i)[0]
+			i = i.strip()
 			if i != args.file:
 				file_list.append(i)
-	
+		
 		return file_list
 
 	file_list = find_exec(file_data)
