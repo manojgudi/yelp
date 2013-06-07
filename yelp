@@ -153,14 +153,15 @@ def exec_function(file_name):
 	file_obj = open(file_name,'r')
 	file_data = file_obj.read()
 	file_obj.close()
+	
 	def find_exec(string):
-		
 		# remove commented exec statments; actually it removes comments altogether
 		string = rm_commented_exec(string)
 	
+		# this regex selects everything between keyword 'exec' and '\n' i.e. file_path/file_name
 		list_exec = re.findall("(?<=exec)(.*)(?=\\n)", string)
 		file_list = []
-		# Remove "exec " to get headers only
+		# strip of whitespaces, remove current filename from list_exec : accidental nested headers
 		for i in list_exec:
 			i = i.strip()
 			if i != args.file:
@@ -331,6 +332,7 @@ def find_single_variable(huge_string,args_list,file_name):
 		print "No Headers found"
 	else:
 		print args_list
+		print (HEADER+"Total: " + ENDC + str(len(args_list)))
 
 	# Remove comments from them
 	huge_string = rm_comments(huge_string)
