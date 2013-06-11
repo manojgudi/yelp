@@ -149,7 +149,6 @@ def rm_commented_exec(string):
 
 # exec_function is responsible for the checking of expansion of header file, if the header file_name is found in file_list, then skip adding it, else add, at the end return file_list which has all file_name.sc* which has to be expanded
 def exec_function(file_name):
-	
 	file_obj = open(file_name,'r')
 	file_data = file_obj.read()
 	file_obj.close()
@@ -258,10 +257,14 @@ def return_line_no(keyword_list,file_list):
 	for file_name in file_list:
 		import os
 		path = (os.getcwd())
-
+		#print 'PATH '+path+'/' + file_name
 		try:
-		
-			file_obj = open(path+'/'+file_name,'r')
+			# for conditions where absolute path of file is provided as argument
+			if file_name.startswith('/'):
+				file_obj = open(file_name,'r')
+			else:
+				file_obj = open(path+'/'+file_name,'r')
+			#file_obj = open(path+'/'+file_name,'r')
 			file_text = file_obj.read()
 			file_obj.close()
 		except:
