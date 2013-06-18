@@ -190,8 +190,6 @@ def nested_list(file_name,args_list):
 			for nested_file in new_list:
 			
 				# Check if its nesting all the way till last file
-				#print("nesting to " + nested_file)
-
 				try:
 					file_obj = open(nested_file,'r')
 					file_obj.close()
@@ -202,6 +200,10 @@ def nested_list(file_name,args_list):
 
 # Remove comments and exec statement; also if ## comment markers found, then abort.
 def rm_comments(file_string):
+	
+	# Remove Text in double quotes
+	file_string = re.sub( r'\"([^\\"]|\\\\|\\")*\"', '', file_string)
+	
 	list_data = file_string.splitlines()
 	list_pass_void_comments = []
 	for i in list_data:
@@ -215,7 +217,7 @@ def rm_comments(file_string):
 			exit() 
 		else:
 			list_pass_void_comments.append(i)
-	
+
 	return list2fstr(list_pass_void_comments)
 
 
@@ -225,10 +227,14 @@ def useless(file_data):
     functionline = 'function [^(]*' # detects function declaration line
     results = re.findall(functionline, file_data)
     for result in results:
-        name = re.findall("=[^(]*", result)[0][1:].strip()
-        count = file_data.count(name)
-        if count==1:
-            ret.append(name)
+        # Try block, if there are No variables
+	try:
+		name = re.findall("=[^(]*", result)[0][1:].strip()
+        	count = file_data.count(name)
+        	if count==1:
+            		ret.append(name)
+	except:
+		ret = []
     return ret
 
 # Takes string and returns list of all output arguments which are not assigned a return value
